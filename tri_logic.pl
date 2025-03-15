@@ -1,34 +1,32 @@
 :- module(tri_logic,[
-    and/3,
-    or/3,
-    not/1
+    andt/3,
+    ort/3,
+    nott/2
 ]).
 
-:- use_module(library(reif)).
+% Using table to improve determinism
+:- table andt/3, ort/3, nott/2.
 
-% ternary logic.
+andt(true, true, true).
+andt(false, true, false).
+andt(u, true, u).
+andt(true, false, false).
+andt(false, false, false).
+andt(u, false, false).
+andt(true, u, u).
+andt(false, u, false).
+andt(u, u, u).
 
-% While using our ternary predicates, Prolog should succeed when they succceed,
-% fail them when they fail and succeed when they neither fail or succeed.
+ort(true, true, true).
+ort(false, true, true).
+ort(u, true, true).
+ort(true, false, true).
+ort(false, false, false).
+ort(u, false, u).
+ort(true, u, true).
+ort(false, u, u).
+ort(u, u, u).
 
-% To achieve this property, we can implement an extra argument that holds the state
-% of the predicate like so:
-
-not(u,u).
-not(true,false).
-not(false,true).
-
-and(true,true,true).
-and(A,B,C) :-
-    C = u,
-    (   A = true, B = u
-    ;
-        B = true,  A = u
-    ;
-        A = u, B = u
-    ).
-
-or(A,B,true) :-
-    A = true ; B = true.
-or(A,B,u) :-
-    A = u ; B = u.
+nott(true,false).
+nott(false,true).
+nott(u,u).
